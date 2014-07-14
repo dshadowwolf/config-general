@@ -1,0 +1,5 @@
+prize   18 \$
+dollar   \$foo
+backslash   contains \\ backslash
+hostparam   \"'wsh.dir'\"
+bgcolor   \#fff
