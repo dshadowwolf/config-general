@@ -35,7 +35,7 @@ module.exports.quick_parse = function( filename, options, cb ) {
 // a reference to itself if passed no filename is becaue of
 // how the Perl version works.
 function cons() {
-  var fn, opts = {};
+  var fn, opts = {}, parseFile = true;
   var argv = arguments[0];
   if( argv == undefined )
     return undefined;
@@ -52,12 +52,18 @@ function cons() {
       }
     });
 
-  if( fn === undefined )
-    return this;
+/*  if( fn === undefined )
+    return this; */
 
   var kl = Object.keys(opts);
 
-  var p = new parser(fn);
+
+  if( fn === undefined &&
+      !("ConfigFile" in kl) ) {
+    parseFile = false;
+  }
+
+  var p = new parser.parser(fn?fn:opts.ConfigFile);
 
   kl.forEach( function(i,x,b) {
     if( x == 0 || x == '0')
@@ -68,15 +74,20 @@ function cons() {
       p.set_option(i, opts[i] );
   });
 
-  if( !("ConfigHash" in kl) ) {
+  if( !("ConfigHash" in opts) && parseFile ) {
     p.open();
     p.parse();
+  } else if( parseFile && ("ConfigHash" in opts)) {
+    p.data = opts.ConfigHash;
+    p.open();
+    p.parse();
+  } else if( "ConfigHash" in opts ) {
+    p.data = opts.ConfigHash;
   } else {
-    p.data = p.parser.curblock;
+    throw new Error('ConfigFile or ConfigHash option needed if you do not pass a configuration filename to this function')
   }
 
-  var asdf = Proxy.create(pu.handlerMakerMparse(p));
-  return asdf;
+  return Proxy.create(pu.handlerMakerMparse(p));
 }
 
 module.exports.parser = cons;

@@ -6,7 +6,7 @@ var console = require('console'),
     fs = require('fs'),
     parser = require('./index');
 
-plan(6)
+plan(7)
 
 test("basic tests", function(t) {
     t.plan(12)
@@ -28,7 +28,7 @@ test("basic tests", function(t) {
 
 var t8conf1 = new parser.parser("t/cfg.8");
 var base_data = t8conf1.getall();
-t8conf1.save("t/cfg.out");
+t8conf1.save_file("t/cfg.out");
 var t8conf2 = new parser.parser("t/cfg.out");
 var data_copy = t8conf2.getall();
 
@@ -88,29 +88,43 @@ test("test various OO methods", function(t) {
 });
 
 /*
- * Some features of this are available, but
- * lacking a way to have a function also act
- * like an object in certain circumstances
- * (and with 'this' tied to the wrong bits
- * in the call-handler (though maybe that
- * was fixed in the new 'direct proxy' version
- * of the spec...))
+ * Perl offers some nifty features that I was unable to replicate.
+ * Instead I've had to use a javascript style of system where the
+ * accesses are through a function - with the same constraints as
+ * the Perl version when calling with a parameter. When called with
+ * no parameter, you will get the actual value.
+ *
+ * Example of the Perl:
+ *   my $conf3 = new Config::General(
+ *      -ExtendedAccess => 1,
+ *      -ConfigHash     => { name => "Moser", prename => "Hannes"}
+ *   );
+ *   my $n = $conf3->name;
+ *   my $p = $conf3->prename;
+ *   $conf3->name("Meier");
+ *   $conf3->prename("Max");
+ *   $conf3->save_file("t/test.cfg");
+ * In Javascript the 'my $n' line would be:
+ *   var n = conf3.name()
+ */
+var t15cbase = { 'name': 'Meier', 'prename': 'Max' }
 
-### 15
-# test AUTOLOAD methods
-eval {
-  my $conf3 = new Config::General(
-     -ExtendedAccess => 1,
-     -ConfigHash     => { name => "Moser", prename => "Hannes"}
-  );
-  my $n = $conf3->name;
-  my $p = $conf3->prename;
-  $conf3->name("Meier");
-  $conf3->prename("Max");
-  $conf3->save_file("t/test.cfg");
-};
-ok (!$@, "Using AUTOLOAD methods");
-*/
+var conf3 = new parser.parser( { 'ExtendedAccess': true,
+                                 'ConfigHash': { 'name': "Moser", 'prename': "Hannes" } } )
+var n = conf3.name()
+var p = conf3.prename()
+conf3.name("Meier")
+conf3.prename("Max")
+conf3.save_file("t/test.cfg")
+
+
+test("Testing the extended \"accessor\" method in place of the perl-only \"AUTOLOAD\" methods", function(t) {
+  t.plan(2)
+  t.ok( n == "Moser" && p == "Hannes", "using the accessor to get the value works" )
+  t.isDeeply( conf3.getall(), t15cbase, "using the accessor to set the value works" )
+  t.end()
+})
+
 
 // okay... need to get .find() done for Config::General::Extended
 // and get all the flags passing around and turning things on
