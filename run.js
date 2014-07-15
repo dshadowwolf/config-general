@@ -42,14 +42,14 @@ test("saving configs and heredoc processing", function(t) {
 var conf;
 var res, res1;
 test("test creating parser and getting parse results", function(t) {
-  conf  = new parser.parser( { 'ExtendedAccess':'1', 'ConfigFile': 't/test.rc'} );
+  conf  = new parser.parser( { 'ExtendedAccess':true, 'ConfigFile': 't/test.rc'} );
   t.plan(1)
   t.ok( conf, "Creating a new object from config file" )
   t.end()
 });
 
 test(function(t) {
-  var conf2 = new parser.parser( { 'ExtendedAccess': 1,
+  var conf2 = new parser.parser( { 'ExtendedAccess': true,
                                    'ConfigFile': "t/test.rc",
                                    'AllowMultiOptions': "yes" } );
   t.plan(1)
@@ -58,7 +58,8 @@ test(function(t) {
   t.end()
 });
 
-conf = new parser.parser('t/test.rc');
+conf = new parser.parser( { 'ExtendedAccess': true,
+                            'ConfigFile': 't/test.rc' } );
 test("extended functionality", function(t) {
 var domain = conf.obj("domain");
 var addr = domain.obj("bar.de");
