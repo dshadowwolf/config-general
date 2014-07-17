@@ -17,7 +17,7 @@ test("basic tests", function(t) {
 	var fst = data.split('\n')[0].trim();
 	fst = fst.replace(/\#\s*/g, "");
 	var conf;
-	t.doesNotThrow(function() { conf = new parser.parser(cfg) },"config loads successfully")
+	t.doesNotThrow(function() { conf = new parser.parser(cfg); },"config loads successfully")
       if( conf == undefined )
         conf = new parser.parser(cfg);
       t.ok( conf.getall(), fst )
