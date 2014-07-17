@@ -6,7 +6,7 @@ var console = require('console'),
     fs = require('fs'),
     parser = require('./index');
 
-plan(7)
+plan(10)
 
 test("basic tests", function(t) {
     t.plan(12)
@@ -127,52 +127,54 @@ test("Testing the extended \"accessor\" method in place of the perl-only \"AUTOL
 })
 
 
-// okay... need to get .find() done for Config::General::Extended
-// and get all the flags passing around and turning things on
-// and off... conditional require's inside the cons() constructor
-// in index.js should solve the proble of not being able to turn off
-// Config::General::Extended - in light of that, the variable interpolation
-// is damned easy to turn off.
-// Though... hrm... perhaps not including the Config::General::Extended
-// functions directly in the prototype... and no, that'd break the objInt
-// wrapper - which is needed because we don't need the full weight of
-// the mparse object for most features.
 
-// after further checking of the docs and some heavy thought, this
-// quite likely is very possible. Just need to play around with a heavier
-// scheme - might have to monkey with the mparse/objInt classes in a
-// separate file, but... with some tracking done (and the notes-in-code-form
-// in test-inspect.js it shouldn't be hard to make the ->id_holding_scalar()
-// work for resetting the value that bit points to.
+var conf16 = new parser.parser({ConfigFile: 't/cfg.16', InterPolateVars: true, StrictVars: false });
+var h16 = conf16.getall();
 
-/*
-### 16
-# testing variable interpolation
-my $conf16 = new Config::General(-ConfigFile => "t/cfg.16", -InterPolateVars => 1, -StrictVars => 0);
-my %h16 = $conf16->getall();
-if($h16{etc}->{log} eq "/usr/log/logfile" and
-   $h16{etc}->{users}->{home} eq "/usr/home/max" and
-   exists $h16{dir}->{teri}->{bl}) {
-  pass("Testing variable interpolation");
-}
-else {
-  fail("Testing variable interpolation");
-}
+test("test variable interpolation", function(t) {
+  t.plan(1)
+  t.ok(function(){ return h16.etc.log === "/usr/log/logfile" &&
+                   h16.etc.users.home === "/usr/home/max" &&
+                   h16.dir.teri.bl !== undefined; }, "Testing variable interpolation")
+  t.end()
+});
 
-### 16.a
-# testing variable interpolation with %ENV use
-my $env = "/home/theunexistent";
-$ENV{HOME} = $env;
-my $conf16a = new Config::General(-ConfigFile => "t/cfg.16a", -InterPolateVars => 1, -InterPolateEnv => 1, -StrictVars => 0);
-my %h16a = $conf16a->getall();
-if($h16a{etc}->{log} eq "$env/log/logfile") {
-  pass("Testing environment variable interpolation");
-}
-else {
-  fail("Testing environment variable interpolation");
-}
+var base_home = process.env.HOME;
+process.env.HOME = '/home/theunexistent';
+var env = '/home/theunexistent';
 
+var config16a = new parser.parser({ConfigFile: 't/cfg.16a',
+                                   InterPolateVars: true,
+                                   InterPolateEnv: true,
+                                   StrictVars: false});
+var h16a = config16a.getall();
+test("Testing environment variable interpolation", function(t) {
+  t.plan(1)
+  t.ok( function() { return h16a.etc.log === env+'/log/logfile'; }, "Testing environment variable interpolation" )
+  t.end()
+});
+process.env.HOME = base_home;
 
+var conf17 = new parser.parser( { ConfigFile: 't/cfg.17',
+                                  DefaultConfig: { home: '/exports/home',
+                                                   logs: '/var/backlog',
+                                                   foo: {
+                                                     bar: 'quux'
+                                                   }
+                                                 },
+                                  InterPolateVars: true,
+                                  MergeDuplicateOptions: true,
+                                  MergeDuplicateBlocks: true });
+
+var h17 = conf17.getall();
+test( "Testing value pre-setting using a hash", function(t) {
+  t.plan(1)
+  t.ok( function() { return h17.home === '/home/users' &&
+                            h17.foo.quux === 'quux'; }, "Testing value pre-setting using a hash" )
+  t.end()
+});
+
+                                  /*
 ### 17
 # testing value pre-setting using a hash
 my $conf17 = new Config::General(
