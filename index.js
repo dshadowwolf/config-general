@@ -13,13 +13,13 @@ function cons() {
   if( 'string' == typeof argv )
     opts.ConfigFile = argv;
   else if( 'object' == typeof argv )
-    opts = new Object(argv);
+    opts = argv;
 
   p = new parser.parser(opts);
 
-  if( opts.ExtendedAccess !== undefined && opts.ExtendedAccess )
+  if( opts.ExtendedAccess !== undefined && opts.ExtendedAccess ) {
     return Proxy.create(pu.handlerMakerMparse(p));
-  else
+  } else
     return p;
 }
 

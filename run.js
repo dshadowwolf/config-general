@@ -6,7 +6,7 @@ var console = require('console'),
     fs = require('fs'),
     parser = require('./index');
 
-plan(10)
+plan(12)
 
 test("basic tests", function(t) {
     t.plan(12)
@@ -32,6 +32,7 @@ t8conf1.save_file("t/cfg.out");
 var t8conf2 = new parser.parser("t/cfg.out");
 var data_copy = t8conf2.getall();
 
+console.log(util.inspect(data_copy));
 test("saving configs and heredoc processing", function(t) {
   t.plan(2)
   t.isDeeply(base_data,data_copy,"Writing Config Hash to disk and compare with original")
@@ -44,7 +45,7 @@ var res, res1;
 test("test creating parser and getting parse results", function(t) {
   conf  = new parser.parser( { 'ExtendedAccess':true, 'ConfigFile': 't/test.rc'} );
   t.plan(1)
-  t.ok( conf, "Creating a new object from config file" )
+  t.ok( conf , "Creating a new object from config file" )
   t.end()
 });
 
@@ -53,7 +54,7 @@ test(function(t) {
                                    'ConfigFile': "t/test.rc",
                                    'AllowMultiOptions': "yes" } );
   t.plan(1)
-  t.ok(conf2 !== undefined && 'function' != typeof conf2,
+  t.ok( conf2 !== undefined && 'function' != typeof conf2,
        "Creating a new object using the hash parameter way")
   t.end()
 });
@@ -84,7 +85,7 @@ if( conf.is_hash("domain") ) {
 
 test("test various OO methods", function(t) {
   t.plan(1)
-  t.ok( a !== undefined, "Using keys() and values()" )
+  t.ok( function() { return a !== undefined; }, "Using keys() and values()" )
   t.end()
 });
 
@@ -112,6 +113,7 @@ var t15cbase = { 'name': 'Meier', 'prename': 'Max' }
 
 var conf3 = new parser.parser( { 'ExtendedAccess': true,
                                  'ConfigHash': { 'name': "Moser", 'prename': "Hannes" } } )
+
 var n = conf3.name()
 var p = conf3.prename()
 conf3.name("Meier")
@@ -174,39 +176,37 @@ test( "Testing value pre-setting using a hash", function(t) {
   t.end()
 });
 
-                                  /*
-### 17
-# testing value pre-setting using a hash
-my $conf17 = new Config::General(
- -file => "t/cfg.17",
- -DefaultConfig => { home => "/exports/home",
-		     logs => "/var/backlog",
-                     foo  => {
-			       bar => "quux"
-			     }
-		   },
- -InterPolateVars => 1,
- -MergeDuplicateOptions => 1,
- -MergeDuplicateBlocks => 1
-);
-my %h17 = $conf17->getall();
-ok ($h17{home} eq "/home/users" &&
-    $h17{foo}{quux} eq "quux",
-    "Testing value pre-setting using a hash");
+// apparently we are not, despite requests to the contrary,
+// actually getting a new object each time.
+var conf18 = new parser.parser( { ConfigFile: 't/cfg.17',
+                                  DefaultConfig: 'home = /exports/home\nlogs = /var/backlog',
+                                  MergeDuplicateOptions: true,
+                                  MergeDuplicateBlocks: true,
+                                  InterPolateVars: false,
+                                  InterPolateEnv: false } );
+var h18 = conf18.getall();
+test("testing value pre-setting using a string", function(t) {
+  t.plan(1)
+  t.ok( function() { return h18.home === "/home/users"; }, "Testing value pre-setting using a string")
+  t.end()
+});
 
+var conf19 = new parser.parser("t/cfg.19");
+var h19 = conf19.getall();
+var works = 1;
 
-### 18
-# testing value pre-setting using a string
-my $conf18 = new Config::General(
- -file => "t/cfg.17", # reuse the file
- -DefaultConfig => "home = /exports/home\nlogs = /var/backlog",
- -MergeDuplicateOptions => 1,
- -MergeDuplicateBlocks => 1
-);
-my %h18 = $conf18->getall();
-ok ($h18{home} eq "/home/users", "Testing value pre-setting using a string");
+Object.keys(h19).forEach( function(e,i,a) {
+  if( /\s/.test(e) )
+    works = 0;
+});
 
+test("testing various option/value assignment notations", function(t) {
+  t.plan(1)
+  t.ok(works, "Testing various option/value assignment notations")
+  t.end()
+});
 
+/*
 ### 19
 # testing various otion/value assignment notations
 my $conf19 = new Config::General(-file => "t/cfg.19");
