@@ -6,7 +6,7 @@ var console = require('console'),
     fs = require('fs'),
     parser = require('./index');
 
-plan(12)
+plan(13)
 
 test("basic tests", function(t) {
     t.plan(12)
@@ -84,7 +84,7 @@ if( conf.is_hash("domain") ) {
 
 test("test various OO methods", function(t) {
   t.plan(1)
-  t.ok( function() { return a !== undefined; }, "Using keys() and values()" )
+  t.ok( a !== undefined , "Using keys() and values()" )
   t.end()
 });
 
@@ -134,9 +134,9 @@ var h16 = conf16.getall();
 
 test("test variable interpolation", function(t) {
   t.plan(1)
-  t.ok(function(){ return h16.etc.log === "/usr/log/logfile" &&
-                   h16.etc.users.home === "/usr/home/max" &&
-                   h16.dir.teri.bl !== undefined; }, "Testing variable interpolation")
+  t.ok( h16.etc.log === "/usr/log/logfile" &&
+        h16.etc.users.home === "/usr/home/max" &&
+        h16.dir.teri.bl !== undefined, "Testing variable interpolation")
   t.end()
 });
 
@@ -151,7 +151,7 @@ var config16a = new parser.parser({ConfigFile: 't/cfg.16a',
 var h16a = config16a.getall();
 test("Testing environment variable interpolation", function(t) {
   t.plan(1)
-  t.ok( function() { return h16a.etc.log === env+'/log/logfile'; }, "Testing environment variable interpolation" )
+  t.ok( h16a.etc.log === env+'/log/logfile', "Testing environment variable interpolation" )
   t.end()
 });
 process.env.HOME = base_home;
@@ -170,8 +170,8 @@ var conf17 = new parser.parser( { ConfigFile: 't/cfg.17',
 var h17 = conf17.getall();
 test( "Testing value pre-setting using a hash", function(t) {
   t.plan(1)
-  t.ok( function() { return h17.home === '/home/users' &&
-                            h17.foo.quux === 'quux'; }, "Testing value pre-setting using a hash" )
+  t.ok( h17.home === '/home/users' &&
+                            h17.foo.quux === 'quux', "Testing value pre-setting using a hash" )
   t.end()
 });
 
@@ -186,7 +186,7 @@ var conf18 = new parser.parser( { ConfigFile: 't/cfg.17',
 var h18 = conf18.getall();
 test("testing value pre-setting using a string", function(t) {
   t.plan(1)
-  t.ok( function() { return h18.home === "/home/users"; }, "Testing value pre-setting using a string")
+  t.ok( h18.home === "/home/users", "Testing value pre-setting using a string")
   t.end()
 });
 
@@ -205,19 +205,19 @@ test("testing various option/value assignment notations", function(t) {
   t.end()
 });
 
-/*
-### 19
-# testing various otion/value assignment notations
-my $conf19 = new Config::General(-file => "t/cfg.19");
-my %h19 = $conf19->getall();
-my $works = 1;
-foreach my $key (keys %h19) {
-  if ($key =~ /\s/) {
-    $works = 0;
-  }
-}
-ok ($works, "Testing various otion/value assignment notations");
+var conf20 = new parser.parser( { ConfigFile: 't/cfg.20.a',
+                                  MergeDuplicateOptions: true } );
+var h20 = conf20.getall();
+var c20files = conf20.files();
+var expected = [ 't/cfg.20.a', 't/cfg.20.b', 't/cfg.20.c' ];
 
+test("testing files() method", function(t) {
+  t.plan(1)
+  t.isDeeply(c20files,expected,"testing files() method")
+  t.end()
+});
+
+/*
 ### 20
 # testing files() method
 my $conf20 = Config::General->new(
