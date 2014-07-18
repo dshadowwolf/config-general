@@ -6,23 +6,24 @@ var console = require('console'),
     fs = require('fs'),
     parser = require('./index');
 
-plan(14)
+plan(14);
 
 test("basic tests", function(t) {
-    t.plan(12)
+    t.plan(12);
 
+  function test_func() { conf = new parser.parser(cfg); }
     for( var num = 2; num < 8; num++ ) {
 	var cfg = "t/cfg."+num;
 	var data = fs.readFileSync(cfg, 'utf8');
 	var fst = data.split('\n')[0].trim();
 	fst = fst.replace(/\#\s*/g, "");
 	var conf;
-	t.doesNotThrow(function() { conf = new parser.parser(cfg); },"config loads successfully")
-      if( conf == undefined )
+	t.doesNotThrow( test_func,"config loads successfully");
+      if( conf === undefined )
         conf = new parser.parser(cfg);
-      t.ok( conf.getall(), fst )
+      t.ok( conf.getall(), fst );
     }
-    t.end()
+    t.end();
 });
 
 
@@ -33,29 +34,29 @@ var t8conf2 = new parser.parser("t/cfg.out");
 var data_copy = t8conf2.getall();
 
 test("saving configs and heredoc processing", function(t) {
-  t.plan(2)
-  t.isDeeply(base_data,data_copy,"Writing Config Hash to disk and compare with original")
-  t.like(data_copy['nocomment'], /this should appear/, "C-comments not processed in here-doc" )
-  t.end()
+  t.plan(2);
+  t.isDeeply(base_data,data_copy,"Writing Config Hash to disk and compare with original");
+  t.like(data_copy.nocomment, /this should appear/, "C-comments not processed in here-doc" );
+  t.end();
 });
 
 var conf;
 var res, res1;
 test("test creating parser and getting parse results", function(t) {
   conf  = new parser.parser( { 'ExtendedAccess':true, 'ConfigFile': 't/test.rc'} );
-  t.plan(1)
-  t.ok( conf , "Creating a new object from config file" )
-  t.end()
+  t.plan(1);
+  t.ok( conf , "Creating a new object from config file" );
+  t.end();
 });
 
 test(function(t) {
   var conf2 = new parser.parser( { 'ExtendedAccess': true,
                                    'ConfigFile': "t/test.rc",
                                    'AllowMultiOptions': "yes" } );
-  t.plan(1)
+  t.plan(1);
   t.ok( conf2 !== undefined && 'function' != typeof conf2,
-       "Creating a new object using the hash parameter way")
-  t.end()
+       "Creating a new object using the hash parameter way");
+  t.end();
 });
 
 conf = new parser.parser( { 'ExtendedAccess': true,
@@ -64,28 +65,28 @@ test("extended functionality", function(t) {
 var domain = conf.obj("domain");
 var addr = domain.obj("bar.de");
 var keys = conf.keys("domain");
-  t.plan(3)
-  t.ok( domain !== undefined, "Creating a new object from a block" )
-  t.ok( addr !== undefined, "Creating a new object from a sub-block" )
-  t.ok( keys !== undefined && keys.length > -1, "Getting values from the object" )
-  t.end()
+  t.plan(3);
+  t.ok( domain !== undefined, "Creating a new object from a block" );
+  t.ok( addr !== undefined, "Creating a new object from a sub-block" );
+  t.ok( keys !== undefined && keys.length > -1, "Getting values from the object" );
+  t.end();
 });
 
 var a;
 if( conf.is_hash("domain") ) {
-  var domains = conf.obj("domain")
+  var domains = conf.obj("domain");
   conf.keys("domain").forEach( function( el, ind, arr ) {
     var domain_obj = domains.obj(el);
     domains.keys(el).forEach( function( elem, index, array ) {
-      a = domain_obj.value(elem)
+      a = domain_obj.value(elem);
     });
   });
 }
 
 test("test various OO methods", function(t) {
-  t.plan(1)
-  t.ok( a !== undefined , "Using keys() and values()" )
-  t.end()
+  t.plan(1);
+  t.ok( a !== undefined , "Using keys() and values()" );
+  t.end();
 });
 
 /*
@@ -108,24 +109,24 @@ test("test various OO methods", function(t) {
  * In Javascript the 'my $n' line would be:
  *   var n = conf3.name()
  */
-var t15cbase = { 'name': 'Meier', 'prename': 'Max' }
+var t15cbase = { 'name': 'Meier', 'prename': 'Max' };
 
 var conf3 = new parser.parser( { 'ExtendedAccess': true,
-                                 'ConfigHash': { 'name': "Moser", 'prename': "Hannes" } } )
+                                 'ConfigHash': { 'name': "Moser", 'prename': "Hannes" } } );
 
-var n = conf3.name()
-var p = conf3.prename()
-conf3.name("Meier")
-conf3.prename("Max")
-conf3.save_file("t/test.cfg")
+var n = conf3.name();
+var p = conf3.prename();
+conf3.name("Meier");
+conf3.prename("Max");
+conf3.save_file("t/test.cfg");
 
 
 test("Testing the extended \"accessor\" method in place of the perl-only \"AUTOLOAD\" methods", function(t) {
-  t.plan(2)
-  t.ok( n == "Moser" && p == "Hannes", "using the accessor to get the value works" )
-  t.isDeeply( conf3.getall(), t15cbase, "using the accessor to set the value works" )
-  t.end()
-})
+  t.plan(2);
+  t.ok( n == "Moser" && p == "Hannes", "using the accessor to get the value works" );
+  t.isDeeply( conf3.getall(), t15cbase, "using the accessor to set the value works" );
+  t.end();
+});
 
 
 
@@ -133,11 +134,11 @@ var conf16 = new parser.parser({ConfigFile: 't/cfg.16', InterPolateVars: true, S
 var h16 = conf16.getall();
 
 test("test variable interpolation", function(t) {
-  t.plan(1)
+  t.plan(1);
   t.ok( h16.etc.log === "/usr/log/logfile" &&
         h16.etc.users.home === "/usr/home/max" &&
-        h16.dir.teri.bl !== undefined, "Testing variable interpolation")
-  t.end()
+        h16.dir.teri.bl !== undefined, "Testing variable interpolation");
+  t.end();
 });
 
 var base_home = process.env.HOME;
@@ -150,9 +151,9 @@ var config16a = new parser.parser({ConfigFile: 't/cfg.16a',
                                    StrictVars: false});
 var h16a = config16a.getall();
 test("Testing environment variable interpolation", function(t) {
-  t.plan(1)
-  t.ok( h16a.etc.log === env+'/log/logfile', "Testing environment variable interpolation" )
-  t.end()
+  t.plan(1);
+  t.ok( h16a.etc.log === env+'/log/logfile', "Testing environment variable interpolation" );
+  t.end();
 });
 process.env.HOME = base_home;
 
@@ -169,10 +170,10 @@ var conf17 = new parser.parser( { ConfigFile: 't/cfg.17',
 
 var h17 = conf17.getall();
 test( "Testing value pre-setting using a hash", function(t) {
-  t.plan(1)
+  t.plan(1);
   t.ok( h17.home === '/home/users' &&
-                            h17.foo.quux === 'quux', "Testing value pre-setting using a hash" )
-  t.end()
+        h17.foo.quux === 'quux', "Testing value pre-setting using a hash" );
+  t.end();
 });
 
 // apparently we are not, despite requests to the contrary,
@@ -185,9 +186,9 @@ var conf18 = new parser.parser( { ConfigFile: 't/cfg.17',
                                   InterPolateEnv: false } );
 var h18 = conf18.getall();
 test("testing value pre-setting using a string", function(t) {
-  t.plan(1)
-  t.ok( h18.home === "/home/users", "Testing value pre-setting using a string")
-  t.end()
+  t.plan(1);
+  t.ok( h18.home === "/home/users", "Testing value pre-setting using a string");
+  t.end();
 });
 
 var conf19 = new parser.parser("t/cfg.19");
@@ -200,9 +201,9 @@ Object.keys(h19).forEach( function(e,i,a) {
 });
 
 test("testing various option/value assignment notations", function(t) {
-  t.plan(1)
-  t.ok(works, "Testing various option/value assignment notations")
-  t.end()
+  t.plan(1);
+  t.ok(works, "Testing various option/value assignment notations");
+  t.end();
 });
 
 var conf20 = new parser.parser( { ConfigFile: 't/cfg.20.a',
@@ -212,9 +213,9 @@ var c20files = conf20.files();
 var expected = [ 't/cfg.20.a', 't/cfg.20.b', 't/cfg.20.c' ];
 
 test("testing files() method", function(t) {
-  t.plan(1)
-  t.isDeeply(c20files,expected,"testing files() method")
-  t.end()
+  t.plan(1);
+  t.isDeeply(c20files,expected,"testing files() method");
+  t.end();
 });
 
 var conf21 = new parser.parser( { ConfigFile: 't/sub1/sub2/sub3/cfg.sub3',
@@ -228,17 +229,16 @@ var h22 = conf22.getall();
 var expected_h22 = { 'sub3_seen': 'yup',
                      'sub2_seen': 'yup',
                      'sub2b_seen': 'yup',
-                     'sub2_seen': 'yup',
                      'sub1b_seen': 'yup',
                      'sub1_seen': 'yup',
                      'fruit': 'mango'
                    };
 
 test("testing improved IncludeRelative option", function(t) {
-  t.plan(2)
-  t.ok(conf21.getall().fruit == 'apple', "prevented from loading relative cfgs without IncludeRelative")
-  t.isDeeply(h22,expected_h22, "loaded relative to include files works fine")
-  t.end()
+  t.plan(2);
+  t.ok(conf21.getall().fruit == 'apple', "prevented from loading relative cfgs without IncludeRelative");
+  t.isDeeply(h22,expected_h22, "loaded relative to include files works fine");
+  t.end();
 });
 
 
