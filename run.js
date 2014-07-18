@@ -32,7 +32,6 @@ t8conf1.save_file("t/cfg.out");
 var t8conf2 = new parser.parser("t/cfg.out");
 var data_copy = t8conf2.getall();
 
-console.log(util.inspect(data_copy));
 test("saving configs and heredoc processing", function(t) {
   t.plan(2)
   t.isDeeply(base_data,data_copy,"Writing Config Hash to disk and compare with original")
