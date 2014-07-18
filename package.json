@@ -10,7 +10,7 @@
     "tap": "^0.4.11"
   },
   "scripts": {
-    "test": "tap --harmony t/*.js"
+    "test": "node --harmony t/*.js"
   },
   "repository": {
     "type": "git",
