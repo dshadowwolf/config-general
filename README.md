@@ -13,5 +13,8 @@ being worked on at this time.
 
 To run the tests:
 make sure tap is installed (ie: npm install tap)
-run: node --harmony run.js
-(or nodejs --harmony run.js - some systems have it installed that way)
+run: 
+  (if you don't have tap installed globally)
+node node_modules/tap/bin/tap.js --harmony t/*.js
+  (if you do have tap installed globally)
+tap --harmony t/*.js

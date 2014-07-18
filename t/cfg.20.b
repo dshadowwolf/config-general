@@ -1,2 +1,2 @@
 seen_cfg.20.b = true
-<<include t/cfg.20.c>>
+<<include cfg.20.c>>
