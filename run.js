@@ -6,7 +6,7 @@ var console = require('console'),
     fs = require('fs'),
     parser = require('./index');
 
-plan(13)
+plan(14)
 
 test("basic tests", function(t) {
     t.plan(12)
@@ -217,36 +217,34 @@ test("testing files() method", function(t) {
   t.end()
 });
 
+var conf21 = new parser.parser( { ConfigFile: 't/sub1/sub2/sub3/cfg.sub3',
+                                  MergeDuplicateOptions: true } );
+
+var conf22 = new parser.parser( { ConfigFile: 't/sub1/sub2/sub3/cfg.sub3',
+                                  MergeDuplicateOptions: true,
+                                  IncludeRelative: true } );
+
+var h22 = conf22.getall();
+var expected_h22 = { 'sub3_seen': 'yup',
+                     'sub2_seen': 'yup',
+                     'sub2b_seen': 'yup',
+                     'sub2_seen': 'yup',
+                     'sub1b_seen': 'yup',
+                     'sub1_seen': 'yup',
+                     'fruit': 'mango'
+                   };
+
+test("testing improved IncludeRelative option", function(t) {
+  t.plan(2)
+  t.ok(conf21.getall().fruit == 'apple', "prevented from loading relative cfgs without IncludeRelative")
+  t.isDeeply(h22,expected_h22, "loaded relative to include files works fine")
+  t.end()
+});
+
+
+
+
 /*
-### 20
-# testing files() method
-my $conf20 = Config::General->new(
-    -file => "t/cfg.20.a",
-    -MergeDuplicateOptions => 1
-);
-my %h20 = $conf20->getall();
-my %files = map { $_ => 1 } $conf20->files();
-my %expected_files = map { $_ => 1 } (
-    't/cfg.20.a',
-    't/cfg.20.b',
-    't/cfg.20.c',
-);
-is_deeply (\%files, \%expected_files, "testing files() method");
-
-
-### 22
-# testing improved IncludeRelative option
-# First try without -IncludeRelative
-# this should fail
-eval {
-    my $conf21 = Config::General->new(
-        -file => "t/sub1/sub2/sub3/cfg.sub3",
-        -MergeDuplicateOptions => 1,
-    );
-};
-ok ($@, "prevented from loading relative cfgs without -IncludeRelative");
-
-
 ### 23
 # Now try with -IncludeRelative
 # this should fail
