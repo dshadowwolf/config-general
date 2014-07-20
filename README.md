@@ -24,6 +24,6 @@ To run the tests:
 make sure tap is installed (ie: npm install tap)
 run: 
   (if you don't have tap installed globally)
-node node_modules/tap/bin/tap.js --harmony t/*.js
+node node_modules/tap/bin/tap.js --harmony t/\*.js
   (if you do have tap installed globally)
-tap --harmony t/*.js
+tap --harmony t/\*.js
