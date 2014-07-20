@@ -50,6 +50,9 @@ function checkOption(optname,optval) {
       if( Array.isArray(optval) ||
           'object' != typeof(optval) )
         return false;
+    } else if( optspec.type == 'array' ) {
+        if( !Array.isArray(optval) )
+          return false;
     } else if( optspec.type != typeof optval ) {
       return false;
     }
@@ -60,6 +63,9 @@ function checkOption(optname,optval) {
       if( e == 'hash' ) {
         if( !Array.isArray(optval) &&
             'object' == typeof optval )
+          in_list = true;
+      } else if( e == 'array' ) {
+        if( Array.isArray(optval) )
           in_list = true;
       } else if( n == e )
           in_list = true;
