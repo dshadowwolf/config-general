@@ -10,7 +10,7 @@ test("test creating parser and getting parse results", function(t) {
 
   var conf2 = new parser.parser( { 'ExtendedAccess': true,
                                    'ConfigFile': "test.rc",
-                                   'AllowMultiOptions': "yes" } );
+                                   'AllowMultiOptions': true } );
   t.ok( conf2 !== undefined && 'function' != typeof conf2,
        "Creating a new object using the hash parameter way");
   t.end();
