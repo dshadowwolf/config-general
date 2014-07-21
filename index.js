@@ -97,17 +97,6 @@ function checkOption(optname,optval) {
       return false;
   }
 
-  if( optspec.spec !== undefined ) {
-    switch( optspec.spec ) {
-      case 'fileexists':
-      return fs.existsSync( optval );
-      case 'oneof':
-      return (optval in optspec.spec);
-      default:
-      return false;
-    }
-  }
-
   return true;
 }
 
