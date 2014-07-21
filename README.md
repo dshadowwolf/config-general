@@ -32,6 +32,8 @@ tap --harmony t/\*.js
 
 The test numbered 33 in t/run.t (the test-suite) of the Perl versions source
 is being skipped in its entirety since there is no functional interface at
-this time. (In fact, I cannot think of a way to cleanly do a functional
-interface)
+this time. There will also be no testing of the 'Tie' parameter as that one
+would unduly complicate the code of the proxy - a feature that will not
+always be available - and likely create some security holes.
+
 
