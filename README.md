@@ -22,8 +22,16 @@ method of the system is called.
 
 To run the tests:
 make sure tap is installed (ie: npm install tap)
+<pre>
 run: 
   (if you don't have tap installed globally)
 node node_modules/tap/bin/tap.js --harmony t/\*.js
   (if you do have tap installed globally)
 tap --harmony t/\*.js
+</pre>
+
+The test numbered 33 in t/run.t (the test-suite) of the Perl versions source
+is being skipped in its entirety since there is no functional interface at
+this time. (In fact, I cannot think of a way to cleanly do a functional
+interface)
+
