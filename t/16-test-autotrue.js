@@ -50,8 +50,8 @@ var expected_h34 = {
 		       }
 	       };
 
-test( "Test null-value handling", function(t) {
+test( "Test AutoTrue", function(t) {
   t.plan(1);
-  t.isDeeply(h34,expected_h34, "testing null-values in block names");
+  t.isDeeply(h34,expected_h34, "testing autotrue");
   t.end();
 });
