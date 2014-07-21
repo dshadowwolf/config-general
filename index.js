@@ -6,7 +6,7 @@ var parser = require('./lib/parser_wrap'),
     pu = require('./lib/proxy_helpers');
 
 var opt_legal = {
-  ConfigFile: { type: 'string', spec: 'fileexists' },
+  ConfigFile: { type: 'string', spec: { name: 'fileexists' } },
   ConfigHash: { type: 'hash' },
   String: { type: ['array','string'] },
   AllowMultiOptions: { type: 'boolean' },
@@ -50,6 +50,28 @@ function checkOption(optname,optval) {
       if( Array.isArray(optval) ||
           'object' != typeof(optval) )
         return false;
+    } else if( optspec.spec !== undefined ) {
+      if( typeof optval != optspec.type ) {
+        return false;
+      }
+
+      switch(optspec.spec.name) {
+        case 'fileexists':
+        if( fs.existsSync(optval) === false )
+          return false;
+        break;
+        case 'oneof':
+        var ins = false;
+        optspec.spec.values.forEach( function(e,i,a) {
+          if( optval == e )
+            ins = true;
+        });
+        if( ins === false )
+          return false;
+        break;
+        default:
+        throw new Error('Unknown special compare type for parameter '+optspec.spec.name);
+        }
     } else if( optspec.type == 'array' ) {
         if( !Array.isArray(optval) )
           return false;
@@ -79,10 +101,8 @@ function checkOption(optname,optval) {
     switch( optspec.spec ) {
       case 'fileexists':
       return fs.existsSync( optval );
-      break;
       case 'oneof':
       return (optval in optspec.spec);
-      break;
       default:
       return false;
     }
