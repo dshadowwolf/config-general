@@ -1,25 +1,32 @@
 {
-  "name": "config-general",
-  "version": "0.1.0",
-  "description": "A Node.js version of the Perl Config::General module that attempts to be API, feature and bug compatible with the original",
-  "main": "index.js",
-  "dependencies": {
-    "glob": "^4.0.3"
-  },
-  "devDependencies": {
-    "tap": "^0.4.11"
-  },
-  "scripts": {
-    "test": "tap --harmony t/*.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/dshadowwolf/config-general.git"
-  },
-  "author": "Daniel Hazelton",
-  "license": "BSD",
-  "bugs": {
-    "url": "https://github.com/dshadowwolf/config-general/issues"
-  },
-  "homepage": "https://github.com/dshadowwolf/config-general"
+    "name": "config-general",
+    "version": "0.1.0",
+    "description": "A Node.js version of the Perl Config::General module that attempts to be API, feature and bug compatible with the original",
+    "main": "index.js",
+    "dependencies": {
+	"glob": "^4.0.3"
+    },
+    "devDependencies": {
+	"tap": "^0.4.11"
+    },
+    "directories": {
+	"lib": "./lib"
+    },
+    "os": [ "darwin","linux" ],
+    "engines" : {
+	"node": ">=0.8.0"
+    },
+    "scripts": {
+	"test": "tap --harmony t/*.js"
+    },
+    "repository": {
+	"type": "git",
+	"url": "dshadowwolf/config-general"
+    },
+    "author": "Daniel Hazelton",
+    "license": "BSD",
+    "bugs": {
+	"url": "https://github.com/dshadowwolf/config-general/issues"
+    },
+    "homepage": "https://github.com/dshadowwolf/config-general"
 }
