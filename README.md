@@ -18,6 +18,10 @@ for all the options, you can even write the above as:
 	
 	var config = cg.parser(<filename>);
 
+The data returned from the parsers "getall" method is a standard
+JavaScript Object masquerading as a hash. You can reference items in
+that Object as you would items in any other JavaScript object.
+
 For more information about available options and the format of the file
 itself, please see the documentation of Perl's Config::General and its
 two sub-modules, Config::General::Extended and Config::General::Interpolated.
