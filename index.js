@@ -36,7 +36,8 @@ var opt_legal = {
   ApacheCompatible: { type: 'boolean' },
   NormalizeBlock: { type: 'function' },
   NormalizeOption: { type: 'function' },
-  NormalizeValue: { type: 'function' }
+  NormalizeValue: { type: 'function' },
+  SaveSorted: { type: 'boolean' }
 };
 
 function checkOption(optname,optval) {

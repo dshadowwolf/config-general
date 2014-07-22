@@ -4,7 +4,9 @@
     "description": "A Node.js version of the Perl Config::General module that attempts to be API, feature and bug compatible with the original",
     "main": "index.js",
     "dependencies": {
-	"glob": "^4.0.3"
+	"glob": "^4.0.3",
+	"iconv": "^2.1.4",
+	"node-icu-charset-detector": "^0.0.7"
     },
     "devDependencies": {
 	"tap": "^0.4.11"
