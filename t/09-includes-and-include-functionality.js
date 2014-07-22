@@ -2,6 +2,7 @@ var tap = require('tap'),
     plan = tap.plan,
     test = tap.test,
     parser = require('../index');
+var console = require('console'), util = require('util');
 
 var conf20 = new parser.parser( { ConfigFile: 'cfg.20.a',
                                   MergeDuplicateOptions: true } );
