@@ -15,8 +15,9 @@ foreach my $pos (40 .. 43) {
 
 test("verify if structural error checks are working", function(t) {
   t.plan(4);
-  for( var i = 40; i <= 43; i++ ) {
-    t.throws( function() { var conf = new parser.parser( { ConfigFile: "t/cfg."+i } ); }, undefined, ""+i+": Structural error checks");
-  }
+  t.throws( function() { var c = new parser.parser( { ConfigFile: 'cfg.40' } ); }, undefined, "40: Structural error checks");
+  t.throws( function() { var c = new parser.parser( { ConfigFile: 'cfg.41' } ); }, undefined, "41: Structural error checks");
+  t.throws( function() { var c = new parser.parser( { ConfigFile: 'cfg.42' } ); }, undefined, "42: Structural error checks");
+  t.throws( function() { var c = new parser.parser( { ConfigFile: 'cfg.43' } ); }, undefined, "43: Structural error checks");
   t.end();
 });

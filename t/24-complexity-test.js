@@ -13,7 +13,7 @@ var conf47 = new parser.parser( {
 				 MergeDuplicateOptions: true,
 				 StrictVars: true,
 				 SplitPolicy: 'custom',
-				 SplitDelimiter: '\s*=\s*',
+				 SplitDelimiter: '\\s*=\\s*',
 				 IncludeGlob: true,
 				 IncludeAgain: true,
 				 IncludeRelative: true,

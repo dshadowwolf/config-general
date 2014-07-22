@@ -13,7 +13,7 @@ var hash51a = cfg51a.getall();
 test("test escaped characters and if they are saved properly", function(t) {
   t.plan(6);
   t.is( hash51.dollar, '$foo', "keep escaped dollar character");
-  t.is( hash51.backslash, 'contains \ backslash', "keep escaped backslash character");
+  t.is( hash51.backslash, 'contains \\ backslash', "keep escaped backslash character");
   t.is(hash51.prize, '18 $', "keep un-escaped dollar character");
   t.is(hash51.hostparam, "\"'wsh.dir'\"", "keep escaped quote character");
   t.is(hash51.bgcolor, '#fff', "keep escaped number sign");

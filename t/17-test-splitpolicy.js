@@ -22,7 +22,7 @@ my %expect35 = (
 is_deeply(\%conf35, \%expect35, "Using -SplitPolicy and custom -SplitDelimiter");
 */
 
-var conf35 = new parser.parser( { String: "var1 :: alpha\nvar2 :: beta\nvar3 = gamma", SplitPolicy: 'custom', SplitDelimiter: '\s*::\s*' } );
+var conf35 = new parser.parser( { String: "var1 :: alpha\nvar2 :: beta\nvar3 = gamma", SplitPolicy: 'custom', SplitDelimiter: '\\s*::\\s*' } );
 var h35 = conf35.getall();
 var expected_h35 = {
     'var3 = gamma': undefined,

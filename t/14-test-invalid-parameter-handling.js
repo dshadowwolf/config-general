@@ -27,7 +27,7 @@ test("Testing invalid parameter calls", function(t) {
   t.plan(4);
 
   opts.forEach( function(e,i,a) {
-    t.throws( function() { var c = new parser.parser(e.p) },undefined,e.t);
+    t.throws( function() { var c = new parser.parser(e.p); },undefined,e.t);
   });
 
   t.end();
