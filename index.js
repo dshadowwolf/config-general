@@ -121,7 +121,12 @@ function cons() {
   p = new parser.parser(opts);
 
   if( opts.ExtendedAccess !== undefined && opts.ExtendedAccess ) {
-    return Proxy.create(pu.handlerMakerMparse(p));
+    if( global.Proxy !== undefined )
+      return Proxy.create(pu.handlerMakerMparse(p));
+    else {
+      console.warn('Harmony proxies not found, some features provided by the ExtendedAccess flag will be unavailable');
+      return p;
+    }
   } else
     return p;
 }
