@@ -34,5 +34,6 @@ The test numbered 33 in t/run.t (the test-suite) of the Perl versions source
 is being skipped in its entirety since there is no functional interface at
 this time. There will also be no testing of the 'Tie' parameter as that one
 would unduly complicate the code of the proxy - a feature that will not
-always be available - and likely create some security holes.
+always be available - and likely create some security holes. (the 'Tie' test
+is listed in the original test-suite as #48 - we will be skipping it)
 
