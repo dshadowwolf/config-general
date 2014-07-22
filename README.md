@@ -3,43 +3,32 @@ config-general
 
 A port to NodeJS of the Perl module Config::General
 
-This code is currently in Alpha and only as functional as the testing has
-pushed me to make it. For the unit-tests to actually function, you have to
-enable 'harmony' features - ie: node --harmony.
+Please note that this code, while hopefully fully functional and bug-free,
+should be considered a late beta.
 
-Please do not attempt to use this code in a production environment at this
-time - it is not completely tested and has at least one known bug that is
-being worked on at this time.
+Example:
+	
+	var cg = require('config-general');
+	
+	var config = cg.parser( { ConfigFile: <filename> } );
+	var config_data = config.getall();
 
-The code is mostly complete and functional, but I have not completely
-converted the unit-tests used to test the Perl module and there are some
-known issues with the current code. One of those is dealing with quoted
-strings as tag-identifiers and values in key-value pairs. That should be
-resolved tomorrow, but at this time I do not have a solid idea of how to
-solve the problems surrounding it, as I need to replace the quotes on, at
-least, the key-value pairs when writing the file out if the save_value()
-method of the system is called.
+Yes, it really can be that simple. In fact, if you want to use the defaults
+for all the options, you can even write the above as:
+	
+	var config = cg.parser(<filename>);
 
-To run the tests:
-make sure tap is installed (ie: npm install tap)
-<pre>
-run: 
-  (if you don't have tap installed globally)
-node node_modules/tap/bin/tap.js --harmony t/\*.js
-  (if you do have tap installed globally)
-tap --harmony t/\*.js
-</pre>
+For more information about available options and the format of the file
+itself, please see the documentation of Perl's Config::General and its
+two sub-modules, Config::General::Extended and Config::General::Interpolated.
 
-The test numbered 33 in t/run.t (the test-suite) of the Perl versions source
-is being skipped in its entirety since there is no functional interface at
-this time. There will also be no testing of the 'Tie' parameter as that one
-would unduly complicate the code of the proxy - a feature that will not
-always be available - and likely create some security holes. (the 'Tie' test
-is listed in the original test-suite as #48 - we will be skipping it)
+I have done a lot of work to make as many features of the Perl module
+available to users of this NodeJS module. Two features that are missing are
+the ability to 'tie' to a backing-store (Config::General's '-Tie' parameter)
+and the functional interface. The "AUTOLOAD methods" feature of
+Config::General is emulated, to a degree, via the use of ES6 (Harmony)
+Proxies. To use that feature, you must start your process with either the
+'--harmony-proxies' or '--harmony' flag.
 
-Test 49 in the original test-suite (now, partially, in
-t/25-test-for-undef.js) also tested for Perl's -w parameter and how things
-were handled around that. As I cannot find similar for NodeJS, we cannot
-test similar.
-
-
+Please leave information about any missing features or founds bugs on the
+bug-tracker provided by Github for the project.
