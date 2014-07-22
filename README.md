@@ -37,3 +37,9 @@ would unduly complicate the code of the proxy - a feature that will not
 always be available - and likely create some security holes. (the 'Tie' test
 is listed in the original test-suite as #48 - we will be skipping it)
 
+Test 49 in the original test-suite (now, partially, in
+t/25-test-for-undef.js) also tested for Perl's -w parameter and how things
+were handled around that. As I cannot find similar for NodeJS, we cannot
+test similar.
+
+
