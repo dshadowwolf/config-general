@@ -1,9 +1,9 @@
 {
     "name": "config-general",
-    "version": "0.1.1a",
+    "version": "0.1.1b",
     "description": "A Node.js version of the Perl Config::General module that attempts to be API, feature and bug compatible with the original",
     "main": "index.js",
-    "keywords": [ "config file", "apache", "Config::General" ],
+    "keywords": [ "config file", "apache config", "Config::General" ],
     "dependencies": {
 	"glob": "^4.0.3",
 	"iconv": "^2.1.4",
