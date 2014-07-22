@@ -3,31 +3,43 @@ var tap = require('tap'),
     test = tap.test,
     parser = require('../index');
 
-/*
-### 26
-# Testing 0-value handling
-my $conf26 = Config::General->new(
- -String => <<TEST,
-<foo 0>
-  0
-</foo>
-TEST
-);
-my %h26 = $conf26->getall;
-my %expected_h26 = (
-  foo => { 0 => { 0 => undef } },
-);
-is_deeply(\%h26, \%expected_h26, "testing 0-values in block names");
 
-*/
+var opts = [
+    {
+      p: { ConfigHash: "StringNotHash" },
+      t: "ConfigHash HASH required"
+    },
+    {
+      p: {String: {}},
+      t: "String STRING required"
+    },
+    {
+      p: {ConfigFile: {}},
+      t: "ConfigFile STRING required"
+    },
+    {
+      p: {ConfigFile: "NoFile"},
+      t: "ConfigFile STRING File must exist and be readable"
+    }
+];
 
-var input = "<foo 0>\n0\n</foo>";
-var conf26 = new parser.parser( { String: input } );
-var h26 = conf26.getall();
-var expected_h26 = { foo: { '0': { '0': undefined } } };
+test("Testing invalid parameter calls", function(t) {
+  t.plan(4);
 
-test( "Test null-value handling", function(t) {
-  t.plan(1);
-  t.isDeeply(h26,expected_h26, "testing null-values in block names");
+  opts.forEach( function(e,i,a) {
+    t.throws( function() { var c = new parser.parser(e.p) },undefined,e.t);
+  });
+
   t.end();
 });
+
+/*
+### 27
+# testing invalid parameter calls, expected to fail
+foreach my $C (@pt) {
+  eval {
+    my $cfg = new Config::General(%{$C->{p}});
+  };
+  ok ($@, "check parameter failure handling $C->{t}");
+}
+*/

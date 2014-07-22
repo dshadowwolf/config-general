@@ -114,9 +114,6 @@ test("complexity test", function(t) {
 });
 
 /*
-#scip
-is_deeply($expect47, \%conf47, "complexity test");
-
 # check if sorted save works
 $conf47->save_file("t/complex.out", \%conf47);
 open T, "<t/complex.out";
