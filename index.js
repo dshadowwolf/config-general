@@ -37,7 +37,8 @@ var opt_legal = {
   NormalizeBlock: { type: 'function' },
   NormalizeOption: { type: 'function' },
   NormalizeValue: { type: 'function' },
-  SaveSorted: { type: 'boolean' }
+  SaveSorted: { type: 'boolean' },
+  ForceArray: { type: 'boolean' }
 };
 
 function checkOption(optname,optval) {
