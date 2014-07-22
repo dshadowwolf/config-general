@@ -1,7 +1,8 @@
 var tap = require('tap'),
     plan = tap.plan,
     test = tap.test,
-    parser = require('../index');
+    parser = require('../index'),
+    fu = require('../lib/file-utils.js');
 var console = require('console'), util = require('util');
 
 var conf47 = new parser.parser( {
@@ -107,28 +108,16 @@ var expect47 = {
                      },
           'a [[weird]] heredoc': 'has to\nwork\ntoo!'
 };
+conf47.save_file('complex.out');
+var d = fu.getFile('complex.out');
+
+var tr = new RegExp("imported = got that from imported config\\nline = along line\\nnando = 11111\\noffflag = false\\nonflag = true", 'mg');
+
+var passfail = tr.test(d);
+
 test("complexity test", function(t) {
-  t.plan(1);
+  t.plan(2);
   t.isDeeply(h47,expect47, "complexity test");
+  t.is(passfail,true,"Testing sorted save");
   t.end();
 });
-
-/*
-# check if sorted save works
-$conf47->save_file("t/complex.out", \%conf47);
-open T, "<t/complex.out";
-my $got47 = join '', <T>;
-close T;
-my $sorted = qq(
-imported = got that from imported config
-line = along line
-nando = 11111
-offflag = 0
-onflag = 1);
-if ($got47 =~ /\Q$sorted\E/) {
-  pass("Testing sorted save");
-}
-else {
-  fail("Testing sorted save");
-}
-*/
