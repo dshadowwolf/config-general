@@ -1,0 +1,23 @@
+Extend the system so the data-tree produced by the parser maintains extra
+information that can be used to recreate the structure of the original
+config more closely.
+  * tracking of where includes were used along with information about the
+    actual filename of the include and whether it was apache-style or not
+  * tracking of information about whether a given node->subnode structure
+    existed originally or was generated based on a named-tag structure.
+  * tracking of line-numbers in the original file during the actual parse.
+    this would be a tokenizer issue and not a parser issue, though the
+    parser itself would need the data to keep it's track of the current
+    line-number updated. ie: a new event to be emitted by the tokenizer.
+  * tracking of the original stored value of a key-value pair that might
+    have been munged by the AutoTrue option so that it can be written back
+    out the same if the value is unchanged.
+  * tracking of what values are changed/unchanged over the life of the
+    output of parser_wrap.js to facilitate ideas like the above tracking
+    of possibly munged value by AutoTrue
+  * application of AutoTrue to user-set values after the file is loaded
+    such that various true/false boolean values are actually stored as
+    a boolean.
+
+More parser directives like <<include>> ? (this would be a change that would
+be non-compatible with the Perl reference version, hence I'm wary about it)
