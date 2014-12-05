@@ -15,7 +15,7 @@
     "directories": {
 	"lib": "./lib"
     },
-    "os": [ "darwin","linux","freebsd" ],
+    "os": [ "!win32" ],
     "engines" : {
 	"node": ">=0.8.0"
     },
