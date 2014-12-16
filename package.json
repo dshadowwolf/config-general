@@ -1,35 +1,41 @@
 {
-    "name": "config-general",
-    "version": "0.1.4",
-    "description": "A Node.js version of the Perl Config::General module that attempts to be API, feature and bug compatible with the original",
-    "main": "index.js",
-    "keywords": [ "config file", "apache config", "Config::General" ],
-    "dependencies": {
-	"glob": "^4.0.3",
-	"iconv": "^2.1.4",
-	"node-icu-charset-detector": "^0.0.7"
-    },
-    "devDependencies": {
-	"tap": "^0.4.11"
-    },
-    "directories": {
-	"lib": "./lib"
-    },
-    "os": [ "!win32" ],
-    "engines" : {
-	"node": ">=0.8.0"
-    },
-    "scripts": {
-	"test": "tap --harmony t/*.js"
-    },
-    "repository": {
-	"type": "git",
-	"url": "dshadowwolf/config-general"
-    },
-    "author": "Daniel Hazelton",
-    "license": "BSD",
-    "bugs": {
-	"url": "https://github.com/dshadowwolf/config-general/issues"
-    },
-    "homepage": "https://github.com/dshadowwolf/config-general"
+  "name": "config-general",
+  "version": "0.1.4",
+  "description": "A Node.js version of the Perl Config::General module that attempts to be API, feature and bug compatible with the original",
+  "main": "index.js",
+  "keywords": [
+    "config file",
+    "apache config",
+    "Config::General"
+  ],
+  "dependencies": {
+    "glob": "^4.0.3",
+    "iconv": "^2.1.4",
+    "node-icu-charset-detector": "^0.0.7"
+  },
+  "devDependencies": {
+    "tap": "^0.4.11"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "os": [
+    "!win32"
+  ],
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "tap --harmony t/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dshadowwolf/config-general.git"
+  },
+  "author": "Daniel Hazelton",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/dshadowwolf/config-general/issues"
+  },
+  "homepage": "https://github.com/dshadowwolf/config-general"
 }
