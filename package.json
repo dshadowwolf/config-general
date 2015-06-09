@@ -9,9 +9,9 @@
     "Config::General"
   ],
   "dependencies": {
-    "glob": "^4.0.3",
-    "iconv": "^2.1.4",
-    "node-icu-charset-detector": "^0.0.7"
+    "glob": ">= 4.0.3",
+    "iconv": ">= 2.1.4",
+    "node-icu-charset-detector": ">= 0.0.7"
   },
   "devDependencies": {
     "tap": "^0.4.11"
@@ -33,7 +33,7 @@
     "url": "git@github.com:dshadowwolf/config-general.git"
   },
   "author": "Daniel Hazelton",
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/dshadowwolf/config-general/issues"
   },
