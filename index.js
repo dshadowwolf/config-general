@@ -122,7 +122,7 @@ function cons() {
 
   if( opts.ExtendedAccess !== undefined && opts.ExtendedAccess ) {
     if( global.Proxy !== undefined )
-      return Proxy.create(pu.handlerMakerMparse(p));
+	return new Proxy(p, pu.handlerMakerMparse(p)); //Proxy.create(pu.handlerMakerMparse(p));
     else {
       console.warn('Harmony proxies not found, some features provided by the ExtendedAccess flag will be unavailable');
       return p;

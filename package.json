@@ -10,8 +10,8 @@
   ],
   "dependencies": {
     "glob": ">= 4.0.3",
-    "iconv": ">= 2.1.4",
-    "node-icu-charset-detector": ">= 0.0.7"
+    "iconv": ">=2.3.0",
+    "node-icu-charset-detector": ">=0.2.0"
   },
   "devDependencies": {
     "tap": "^0.4.11"
@@ -23,7 +23,7 @@
     "!win32"
   ],
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=6.0.0"
   },
   "scripts": {
     "test": "tap --harmony t/*.js"
